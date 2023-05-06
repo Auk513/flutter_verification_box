@@ -84,7 +84,8 @@ class VerificationBoxItem extends StatelessWidget {
         showCursor
             ? Positioned.fill(
                 child: VerificationBoxCursor(
-                color: cursorColor ?? Theme.of(context).cursorColor,
+                color: cursorColor ??
+                    Theme.of(context).textSelectionTheme.cursorColor,
                 width: cursorWidth,
                 indent: cursorIndent,
                 endIndent: cursorEndIndent,
@@ -100,9 +101,10 @@ class VerificationBoxItem extends StatelessWidget {
   _buildBoxDecoration(Widget child, Color borderColor) {
     return Container(
       alignment: Alignment.center,
-      decoration: decoration??BoxDecoration(
-          borderRadius: BorderRadius.circular(this.borderRadius),
-          border: Border.all(color: borderColor, width: this.borderWidth)),
+      decoration: decoration ??
+          BoxDecoration(
+              borderRadius: BorderRadius.circular(this.borderRadius),
+              border: Border.all(color: borderColor, width: this.borderWidth)),
       child: child,
     );
   }
