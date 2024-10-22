@@ -22,9 +22,11 @@ enum VerificationBoxItemType {
 class VerificationBoxItem extends StatelessWidget {
   VerificationBoxItem(
       {this.data = '',
+      this.focused = false,
       this.textStyle,
       this.type = VerificationBoxItemType.box,
       this.decoration,
+      this.focusDecoration,
       this.borderRadius = 5.0,
       this.borderWidth = 2.0,
       this.borderColor,
@@ -35,12 +37,14 @@ class VerificationBoxItem extends StatelessWidget {
       this.cursorEndIndent = 5});
 
   final String data;
+  final bool focused;
   final VerificationBoxItemType type;
   final double borderWidth;
   final Color? borderColor;
   final double borderRadius;
   final TextStyle? textStyle;
   final Decoration? decoration;
+  final Decoration? focusDecoration;
 
   ///
   /// 是否显示光标
@@ -101,7 +105,7 @@ class VerificationBoxItem extends StatelessWidget {
   _buildBoxDecoration(Widget child, Color borderColor) {
     return Container(
       alignment: Alignment.center,
-      decoration: decoration ??
+      decoration: (focused ? focusDecoration : decoration) ??
           BoxDecoration(
               borderRadius: BorderRadius.circular(this.borderRadius),
               border: Border.all(color: borderColor, width: this.borderWidth)),

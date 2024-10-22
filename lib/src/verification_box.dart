@@ -15,6 +15,7 @@ class VerificationBox extends StatefulWidget {
       this.onSubmitted,
       this.type = VerificationBoxItemType.box,
       this.decoration,
+      this.focusDecoration,
       this.borderWidth = 2.0,
       this.borderRadius = 5.0,
       this.textStyle,
@@ -52,6 +53,11 @@ class VerificationBox extends StatefulWidget {
   /// 每个item的样式
   ///
   final Decoration? decoration;
+
+  ///
+  /// 每个item的获取焦点样式
+  ///
+  final Decoration? focusDecoration;
 
   ///
   /// 边框宽度
@@ -150,9 +156,12 @@ class _VerificationBox extends State<VerificationBox> {
                 width: widget.itemWidget,
                 child: VerificationBoxItem(
                   data: _contentList[index],
+                  focused:
+                      _focusNode.hasFocus && _controller.text.length == index,
                   textStyle: widget.textStyle,
                   type: widget.type,
                   decoration: widget.decoration,
+                  focusDecoration: widget.focusDecoration,
                   borderRadius: widget.borderRadius,
                   borderWidth: widget.borderWidth,
                   borderColor: (_controller.text.length == index
@@ -194,10 +203,10 @@ class _VerificationBox extends State<VerificationBox> {
       autofocus: widget.autoFocus,
       inputFormatters: [
         FilteringTextInputFormatter(RegExp("[0-9]"), allow: true),
-        ],
+      ],
 //      高版本flutter出现报错，没有此类型，用Filtering替换即可
 //      WhitelistingTextInputFormatter(RegExp("[0-9]")),
-      
+
       maxLength: widget.count,
       buildCounter: (
         BuildContext context, {
