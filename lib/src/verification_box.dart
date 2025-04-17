@@ -137,14 +137,31 @@ class _VerificationBox extends State<VerificationBox> {
     });
     _controller = TextEditingController();
     _focusNode = FocusNode();
+    _focusNode.addListener(_onFocusChange);
     super.initState();
+  }
+
+  void _onFocusChange() {
+    debugPrint('Focus changed: ${_focusNode.hasFocus}');
+    setState(() {});
+  }
+
+  @override
+  void dispose() {
+    _focusNode.removeListener(_onFocusChange);
+    _focusNode.dispose();
+    _controller.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
+        debugPrint('Before focus request: ${_focusNode.hasFocus}');
         FocusScope.of(context).requestFocus(_focusNode);
+        debugPrint('After focus request: ${_focusNode.hasFocus}');
+        setState(() {});
       },
       child: Stack(
         children: <Widget>[
@@ -168,8 +185,9 @@ class _VerificationBox extends State<VerificationBox> {
                           ? widget.focusBorderColor
                           : widget.borderColor) ??
                       widget.borderColor,
-                  showCursor:
-                      widget.showCursor && _controller.text.length == index,
+                  showCursor: widget.showCursor &&
+                      _focusNode.hasFocus &&
+                      _controller.text.length == index,
                   cursorColor: widget.cursorColor,
                   cursorWidth: widget.cursorWidth,
                   cursorIndent: widget.cursorIndent,
